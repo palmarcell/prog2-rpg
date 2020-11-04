@@ -31,4 +31,25 @@ public class Entity {
         return damage;
     }
 
+    public void attack(Entity entityToBeAttacked) {
+        var maxAttack= Optional.ofNullable(this.getWeapon())
+                .map(this::calculateFinalAttack)
+                .orElse(this.getDamage());
+
+        entityToBeAttacked.takeDamage(maxAttack);
+    }
+
+    @Override
+    public String toString() {
+        return this.getName() + ":\n" +
+                "\tLevel: " + this.getLevel() + "\n" +
+                "\tHealth: " + this.getHealth() + "\n" +
+                "\tDamage: " + this.getDamage();
+    }
+
+    private int calculateFinalAttack(Weapon weapon) {
+        Optional.ofNullable(weapon.getEffect()).ifPresent(effect -> effect.apply(this));
+        return weapon.getDamage() + this.getDamage();
+    }
+
 }
