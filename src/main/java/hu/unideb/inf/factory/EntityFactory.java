@@ -4,6 +4,6 @@ import hu.unideb.inf.model.Entity;
 
 public interface EntityFactory {
 
-    Entity create();
+    Entity create(int level);
 
 }
